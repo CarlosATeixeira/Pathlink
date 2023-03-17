@@ -1,0 +1,379 @@
+﻿<Window x:Class="Pathlink.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pathlink"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="600" Width="920"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        MouseDown="Window_MouseDown">
+
+    <Border Background="#272537"
+            CornerRadius="20">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Pathlink"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="White"
+                   FontSize="28"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <RadioButton Content="Path"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="18"
+                             Style="{StaticResource MenuButtonTheme}" IsChecked="True"/>
+                    <Button Content="Generate"
+                            Height="50"
+                            Foreground="White"
+                            Background="Transparent"
+                            FontSize="18"
+                            BorderThickness="0"
+                            x:Name="Generate" Click="Generate_Click"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <Button Content="Sair"
+                            Height="50"
+                            Foreground="White"
+                            Background="Transparent"
+                            FontSize="18"
+                            BorderThickness="0"
+                            x:Name="Sair" Click="Sair_Click"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Caminho:"
+                            Foreground="White"
+                            FontSize="18"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                <TextBox Grid.Column="1"
+                         Margin="10"
+                         TextWrapping="NoWrap"
+                         AcceptsReturn="False"
+                         Height="40"
+                         FontSize="20"
+                         HorizontalContentAlignment="Left"
+                         VerticalContentAlignment="Center"
+                         Padding="10,0,10,0"
+                         x:Name="Caminho"
+                         TextChanged="Caminho_TextChanged">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+            </Grid>
+            <Grid Grid.Row="1"
+                  Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="1"
+                            Margin="5"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Site A"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="24"
+                               FontWeight="SemiBold"
+                               Foreground="White"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="1"
+                                   Text="Site Name:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"
+                                   Margin="10"/>
+                            <TextBlock Grid.Row="2"
+                                   Text="Latitude:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"
+                                   Margin="10"/>
+                            <TextBlock Grid.Row="3"
+                                   Text="Longitude:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"
+                                   Margin="10"/>
+                            <TextBlock Grid.Row="4"
+                                   Text="Altura:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"
+                                   Margin="10"/>
+                            <TextBox Grid.Column="1"
+                                 Grid.Row="1"
+                                 Margin="5"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"
+                                 Height="25"
+                                 FontSize="16"
+                                 FontWeight="SemiBold"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Padding="3,0,3,0"
+                                 x:Name="SiteA">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <TextBox Grid.Column="1"
+                                 Grid.Row="2"
+                                 Margin="5"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"
+                                 Height="25"
+                                 FontSize="16"
+                                 FontWeight="SemiBold"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Padding="3,0,3,0"
+                                 x:Name="LatA">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <TextBox Grid.Column="1"
+                                 Grid.Row="3"
+                                 Margin="5"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"
+                                 Height="25"
+                                 FontSize="16"
+                                 FontWeight="SemiBold"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Padding="3,0,3,0"
+                                 x:Name="LongA">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <TextBox Grid.Column="1"
+                                 Grid.Row="4"
+                                 Margin="5"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"
+                                 Height="25"
+                                 FontSize="16"
+                                 FontWeight="SemiBold"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Padding="3,0,3,0"
+                                 x:Name="AltA">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="5"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Site B"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="24"
+                               FontWeight="SemiBold"
+                               Foreground="White"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="1"
+                                   Text="Site Name:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"
+                                   Margin="10"/>
+                            <TextBlock Grid.Row="2"
+                                   Text="Latitude:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"
+                                   Margin="10"/>
+                            <TextBlock Grid.Row="3"
+                                   Text="Longitude:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"
+                                   Margin="10"/>
+                            <TextBlock Grid.Row="4"
+                                   Text="Altura:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Foreground="White"
+                                   Margin="10"/>
+                            <TextBox Grid.Column="1"
+                                 Grid.Row="1"
+                                 Margin="5"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"
+                                 Height="25"
+                                 FontSize="16"
+                                 FontWeight="SemiBold"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Padding="3,0,3,0"
+                                 x:Name="SiteB">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <TextBox Grid.Column="1"
+                                 Grid.Row="2"
+                                 Margin="5"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"
+                                 Height="25"
+                                 FontSize="16"
+                                 FontWeight="SemiBold"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Padding="3,0,3,0"
+                                 x:Name="LatB">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <TextBox Grid.Column="1"
+                                 Grid.Row="3"
+                                 Margin="5"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"
+                                 Height="25"
+                                 FontSize="16"
+                                 FontWeight="SemiBold"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Padding="3,0,3,0"
+                                 x:Name="LongB">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <TextBox Grid.Column="1"
+                                 Grid.Row="4"
+                                 Margin="5"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"
+                                 Height="25"
+                                 FontSize="16"
+                                 FontWeight="SemiBold"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Padding="3,0,3,0"
+                                 x:Name="AltB">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="2"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                        </Grid>
+                    </StackPanel>
+                    
+                </Grid>
+                <TextBlock Text="Preencha todas as informações!"
+                           Foreground="OrangeRed"
+                           FontSize="20"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="Hidden"
+                           x:Name="Erro_Preencher"/>
+                <TextBlock Grid.Row="2"
+                           Text="COMPLETED"
+                           FontSize="20"
+                           Foreground="Green"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Visibility="Hidden"
+                           x:Name="Completed"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
+
+
