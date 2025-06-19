@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pathlink.Core;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,6 +17,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using System.Threading;
 
 namespace Pathlink
 {
@@ -24,15 +29,45 @@ namespace Pathlink
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Grid> grids = new List<Grid>();
+
         public MainWindow()
         {
             InitializeComponent();
+            grids.Add(PathPage);
+            grids.Add(TerrainPage);
+            Terrain.SetPathInstance(Path);
+            GeoData.SetPathInstance(Path);
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void PathCheck(object sender, RoutedEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+            foreach (Grid grid in grids)
+            {
+                if (grid == PathPage)
+                {
+                    grid.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    grid.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void TerrainCheck(object sender, RoutedEventArgs e)
+        {
+            foreach (Grid grid in grids)
+            {
+                if (grid == TerrainPage)
+                {
+                    grid.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    grid.Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -40,116 +75,59 @@ namespace Pathlink
             
         }
 
+        private void Min_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void Max_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal)
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = WindowState.Normal;
+            }
+        }
+
         private void Sair_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }
 
-        private void Caminho_TextChanged(object sender, TextChangedEventArgs e)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Trace.WriteLine("changed");
+            Terrain.SetPathInstance(Path);
+            await GeoData.InitializeAsync();
 
-            if (Directory.Exists(Caminho.Text))
+        }
+
+        private void Terrain_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void Path_Loaded(object sender, RoutedEventArgs e)
+        {
+            Path.LatA.Text = "25 54 12.46 S";
+            Path.LongA.Text = "048 55 40.30 W";
+            Path.LatB.Text = "25 57 39.82 S";
+            Path.LongB.Text = "048 54 01.45 W";
+            Path.Frequency.Text = "7.5";
+
+            await GeoData.InitializeAsync();
+            Path.UpdateAlts();
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                Caminho.Foreground = new SolidColorBrush(Colors.Green);
-            }
-            else
-            {
-                Caminho.Foreground = new SolidColorBrush(Colors.Red);
+                this.DragMove();
             }
         }
 
-        private void Generate_Click(object sender, RoutedEventArgs e)
-        {
-            // NE = Not Empty
-            var NE_Caminho = Caminho.Text.Length > 0;
-
-            var NE_SiteA = SiteA.Text.Length > 0;
-            var NE_LatA = LatA.Text.Length > 0;
-            var NE_LongA = LongA.Text.Length > 0;
-            var NE_AltA = AltA.Text.Length > 0;
-
-            var NE_SiteB = SiteB.Text.Length > 0;
-            var NE_LatB = LatB.Text.Length > 0;
-            var NE_LongB = LongB.Text.Length > 0;
-            var NE_AltB = AltB.Text.Length > 0;
-
-            // Verifica se todos campos estão preenchidos
-            var NE_All = NE_Caminho && NE_SiteA && NE_LatA && NE_LongA && NE_AltA && NE_SiteB && NE_LatB && NE_LongB && NE_AltB;
-
-            if (NE_All && Directory.Exists(Caminho.Text))
-            {
-                if (File.Exists("work/path.kml"))
-                {
-                    File.Delete("work/path.kml");
-                }
-                else
-                {
-                    File.Copy("file/path.kml", "work/path.kml");
-                }
-
-                if (File.Exists("work/path.kml") && System.IO.Path.IsPathRooted(Caminho.Text))
-                {
-                    if (LatA.Text.Any(Char.IsWhiteSpace)) { LatA.Text = ConvertToDecimal(LatA.Text); }
-                    if (LongA.Text.Any(Char.IsWhiteSpace)) { LongA.Text = ConvertToDecimal(LongA.Text); }
-
-                    if (LatB.Text.Any(Char.IsWhiteSpace)) { LatB.Text = ConvertToDecimal(LatB.Text); }
-                    if (LongB.Text.Any(Char.IsWhiteSpace)) { LongB.Text = ConvertToDecimal(LongB.Text); }
-
-                    string text = File.ReadAllText("work/path.kml");
-                    text = text.Replace("#SITEA", SiteA.Text);
-                    text = text.Replace("#LATA", LatA.Text);
-                    text = text.Replace("#LONGA", LongA.Text);
-                    text = text.Replace("#ALTA", AltA.Text);
-
-                    text = text.Replace("#SITEB", SiteB.Text);
-                    text = text.Replace("#LATB", LatB.Text);
-                    text = text.Replace("#LONGB", LongB.Text);
-                    text = text.Replace("#ALTB", AltB.Text);
-                    File.WriteAllText("work/path.kml", text);
-
-                    if (File.Exists($"{Caminho.Text}/path.kml")) { File.Delete($"{Caminho.Text}/path.kml"); }
-
-                    File.Move("work/path.kml", $"{Caminho.Text}/path.kml");
-
-                    Completed.Visibility = Visibility.Visible;
-                }
-            }
-            else
-            {
-                Erro_Preencher.Visibility = Visibility.Visible;
-            }
-        }
-
-        private string ConvertToDecimal(string geo)
-        {
-            double dec;
-            string decString;
-
-            string[] geoPart = geo.Split(' ');
-            string[] geoPart2 = geoPart[2].Split(".");
-
-            var a = Convert.ToDouble(geoPart[0]);
-            var b = Convert.ToDouble(geoPart[1]);
-            var c = Convert.ToDouble(geoPart2[0]) + (Convert.ToDouble(geoPart2[1])*0.01);
-
-
-            dec = a + (b / 60) + (c / 3600);
-
-            if (geoPart[3].Contains("S") || geoPart[3].Contains("W"))
-            {
-                dec *= -1;
-            }
-
-            foreach (string part in geoPart) { Trace.WriteLine(part); }
-            Trace.WriteLine(a);
-            Trace.WriteLine(b);
-            Trace.WriteLine(c);
-            Trace.WriteLine(dec);
-
-            decString = dec.ToString().Replace(",",".");
-
-            return decString;
-        }
     }
 }

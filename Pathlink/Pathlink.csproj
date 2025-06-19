@@ -1,16 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+<PropertyGroup>
+<OutputType>WinExe</OutputType>
+<TargetFramework>net7.0-windows</TargetFramework>
+<Nullable>enable</Nullable>
+<UseWPF>true</UseWPF>
+</PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="MVVM\Model\" />
-    <Folder Include="MVVM\View\" />
-    <Folder Include="MVVM\ViewModel\" />
-  </ItemGroup>
+<ItemGroup>
+<Folder Include="MVVM\Model\" />
+<Folder Include="MVVM\View\" />
+<Folder Include="MVVM\ViewModel\" />
+<Folder Include="Services\" />
+</ItemGroup>
+
+<ItemGroup>
+<PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+</ItemGroup>
 
 </Project>
